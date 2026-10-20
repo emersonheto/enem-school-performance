@@ -1,0 +1,21 @@
+[project]
+name = "enem-school-performance"
+version = "0.1.0"
+description = "CMP263 (PPGC/UFRGS 2026/2): structural school characteristics and school-level ENEM 2025 performance"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "pandas==3.0.6",
+    "numpy==2.5.4",
+    "pyarrow==26.0.0",
+    "scikit-learn==1.9.1",
+    "matplotlib==3.11.2",
+    "tabulate==0.10.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+]
+
+[tool.uv]
+package = false

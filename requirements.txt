@@ -1,0 +1,51 @@
+# Gerado de uv.lock com: uv export --no-dev --no-hashes --format requirements-txt
+cloudpickle==3.1.2
+[32m    # via joblib[39m
+contourpy==1.4.0
+[32m    # via matplotlib[39m
+cycler==0.12.1
+[32m    # via matplotlib[39m
+fonttools==4.67.0
+[32m    # via matplotlib[39m
+joblib==1.6.0
+[32m    # via scikit-learn[39m
+kiwisolver==1.5.1
+[32m    # via matplotlib[39m
+matplotlib==3.11.2
+[32m    # via enem-school-performance[39m
+narwhals==2.27.1
+[32m    # via scikit-learn[39m
+numpy==2.5.4
+[32m    # via[39m
+[32m    #   contourpy[39m
+[32m    #   enem-school-performance[39m
+[32m    #   matplotlib[39m
+[32m    #   pandas[39m
+[32m    #   scikit-learn[39m
+[32m    #   scipy[39m
+packaging==26.3
+[32m    # via matplotlib[39m
+pandas==3.0.6
+[32m    # via enem-school-performance[39m
+pillow==13.0.0
+[32m    # via matplotlib[39m
+pyarrow==26.0.0
+[32m    # via enem-school-performance[39m
+pyparsing==3.3.3
+[32m    # via matplotlib[39m
+python-dateutil==2.9.0.post0
+[32m    # via[39m
+[32m    #   matplotlib[39m
+[32m    #   pandas[39m
+scikit-learn==1.9.1
+[32m    # via enem-school-performance[39m
+scipy==1.18.1
+[32m    # via scikit-learn[39m
+six==1.17.0
+[32m    # via python-dateutil[39m
+tabulate==0.10.0
+[32m    # via enem-school-performance[39m
+threadpoolctl==3.7.0
+[32m    # via scikit-learn[39m
+tzdata==2026.5 ; sys_platform == 'emscripten' or sys_platform == 'win32'
+[32m    # via pandas[39m
