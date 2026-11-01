@@ -16,6 +16,11 @@ dependencies = [
 dev = [
     "pytest==9.1.1",
 ]
+notebooks = [
+    "ipykernel==7.4.0",
+    "jupyterlab==4.6.5",
+    "nbconvert==7.17.2",
+]
 
 [tool.uv]
 package = false
