@@ -8,6 +8,8 @@ from zipfile import ZipFile
 
 import pandas as pd
 
+from enem_school import config
+
 SCORE_COLUMNS = ["NU_NOTA_CN", "NU_NOTA_CH", "NU_NOTA_LC", "NU_NOTA_MT", "NU_NOTA_REDACAO"]
 PRESENCE_COLUMNS = ["TP_PRESENCA_CN", "TP_PRESENCA_CH", "TP_PRESENCA_LC", "TP_PRESENCA_MT"]
 PRESENT = 1
@@ -33,7 +35,7 @@ def finalize_school_scores(totals: Iterable[pd.DataFrame], min_students: int) ->
         {
             "CO_ESCOLA": combined.index.astype("int64"),
             "n_alunos": combined["count"].astype("int64").to_numpy(),
-            "nota_media": (combined["sum"] / combined["count"]).to_numpy(),
+            config.TARGET: (combined["sum"] / combined["count"]).to_numpy(),
         }
     )
     return scores.sort_values("CO_ESCOLA").reset_index(drop=True)
