@@ -4,7 +4,7 @@ import pandas as pd
 
 from enem_school import config
 
-TARGET = "nota_media"
+TARGET = config.TARGET
 
 # Censo data dictionary: "88888 - registro com marcação de valor extremo" (e.g. more than 4 computers per 3 enrolments).
 INEP_EXTREME_VALUE = 88888

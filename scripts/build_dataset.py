@@ -73,7 +73,7 @@ def main() -> int:
         "features": features,
         "missing_features": missing,
         "group_keys": config.GROUP_KEYS,
-        "target": "nota_media",
+        "target": config.TARGET,
         "versions": {"python": platform.python_version(), "pandas": pd.__version__, "scikit-learn": sklearn.__version__},
     }
     config.SCHOOL_TABLE_METADATA.write_text(json.dumps(metadata, indent=2, ensure_ascii=False) + "\n")

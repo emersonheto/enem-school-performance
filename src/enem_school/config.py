@@ -11,6 +11,9 @@ ENEM_YEAR = 2025
 CENSO_YEAR = 2024
 MIN_STUDENTS_PER_SCHOOL = 10
 
+# Mean of the 5 ENEM scores per student, averaged per school.
+TARGET = "nota_media"
+
 ENEM_URL = f"https://download.inep.gov.br/microdados/microdados_enem_{ENEM_YEAR}.zip"
 CENSO_URL = f"https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_{CENSO_YEAR}.zip"
 

@@ -9,7 +9,6 @@ from sklearn.pipeline import Pipeline
 from enem_school import config
 from enem_school.preprocessing import assign_folds, build_preprocessor, feature_columns
 
-TARGET = "nota_media"
 INNER_FOLDS = 3
 PARAM_PREFIX = "regressor__"
 
@@ -23,7 +22,7 @@ def nested_cv(regressor, param_grid: dict, schools: pd.DataFrame, variant: str =
     Returns one row per outer fold: dobra, rmse, mae, r2, melhores_parametros.
     """
     X = schools[feature_columns(variant)]
-    y = schools[TARGET]
+    y = schools[config.TARGET]
     groups = schools["CO_MUNICIPIO"]
     folds = assign_folds(schools)
     prefixed_grid = {PARAM_PREFIX + name: values for name, values in param_grid.items()}
