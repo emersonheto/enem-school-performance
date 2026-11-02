@@ -21,6 +21,7 @@ Trabalho prático de CMP263 (PPGC/UFRGS, 2026/2). Grupo: Artur Mariano, Emerson 
 | `notebooks/01_regressao_linear.ipynb` | Regressão linear (variantes A/B/C e baselines) com validação cruzada agrupada por município |
 | `notebooks/02_spot_checking.ipynb` | Spot-checking de 6 algoritmos com hiperparâmetros padrão (3×5 dobras por município), com teste de Friedman e pós-teste de Nemenyi |
 | `notebooks/03_otimizacao.ipynb` | Otimização de hiperparâmetros com nested CV (3×5 dobras por município) da árvore, SVR, Floresta e Gradient Boosting, com Friedman e Nemenyi |
+| `notebooks/04_interpretacao.ipynb` | Interpretação do Gradient Boosting ajustado: SHAP, variantes A/B/C (sem rede e sem merenda) e resíduos por rede e região |
 | `reports/results/` | Métricas por dobra e resumo de cada modelo, gravadas pelos notebooks |
 | `tests/` | Testes do pipeline de dados e das regras de inconsistência |
 | `data/` | Dados brutos e processados (fora do git) |

@@ -1,51 +1,70 @@
 # Gerado de uv.lock com: uv export --no-dev --no-hashes --format requirements-txt
 cloudpickle==3.1.2
-[32m    # via joblib[39m
+    # via
+    #   joblib
+    #   shap
+colorama==0.4.6 ; sys_platform == 'win32'
+    # via tqdm
 contourpy==1.4.0
-[32m    # via matplotlib[39m
+    # via matplotlib
 cycler==0.12.1
-[32m    # via matplotlib[39m
+    # via matplotlib
 fonttools==4.67.0
-[32m    # via matplotlib[39m
+    # via matplotlib
 joblib==1.6.0
-[32m    # via scikit-learn[39m
+    # via scikit-learn
 kiwisolver==1.5.1
-[32m    # via matplotlib[39m
+    # via matplotlib
 matplotlib==3.11.2
-[32m    # via enem-school-performance[39m
+    # via enem-school-performance
 narwhals==2.27.1
-[32m    # via scikit-learn[39m
+    # via scikit-learn
 numpy==2.5.4
-[32m    # via[39m
-[32m    #   contourpy[39m
-[32m    #   enem-school-performance[39m
-[32m    #   matplotlib[39m
-[32m    #   pandas[39m
-[32m    #   scikit-learn[39m
-[32m    #   scipy[39m
+    # via
+    #   contourpy
+    #   enem-school-performance
+    #   matplotlib
+    #   pandas
+    #   scikit-learn
+    #   scipy
+    #   shap
 packaging==26.3
-[32m    # via matplotlib[39m
+    # via
+    #   matplotlib
+    #   shap
 pandas==3.0.6
-[32m    # via enem-school-performance[39m
+    # via
+    #   enem-school-performance
+    #   shap
 pillow==13.0.0
-[32m    # via matplotlib[39m
+    # via matplotlib
 pyarrow==26.0.0
-[32m    # via enem-school-performance[39m
+    # via enem-school-performance
 pyparsing==3.3.3
-[32m    # via matplotlib[39m
+    # via matplotlib
 python-dateutil==2.9.0.post0
-[32m    # via[39m
-[32m    #   matplotlib[39m
-[32m    #   pandas[39m
+    # via
+    #   matplotlib
+    #   pandas
 scikit-learn==1.9.1
-[32m    # via enem-school-performance[39m
+    # via
+    #   enem-school-performance
+    #   shap
 scipy==1.18.1
-[32m    # via scikit-learn[39m
+    # via
+    #   scikit-learn
+    #   shap
+shap==0.54.1
+    # via enem-school-performance
 six==1.17.0
-[32m    # via python-dateutil[39m
+    # via python-dateutil
+slicer==0.0.8
+    # via shap
 tabulate==0.10.0
-[32m    # via enem-school-performance[39m
+    # via enem-school-performance
 threadpoolctl==3.7.0
-[32m    # via scikit-learn[39m
+    # via scikit-learn
+tqdm==4.70.1
+    # via shap
 tzdata==2026.5 ; sys_platform == 'emscripten' or sys_platform == 'win32'
-[32m    # via pandas[39m
+    # via pandas

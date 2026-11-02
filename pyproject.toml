@@ -10,6 +10,7 @@ dependencies = [
     "scikit-learn==1.9.1",
     "matplotlib==3.11.2",
     "tabulate==0.10.0",
+    "shap==0.54.1",
 ]
 
 [dependency-groups]
