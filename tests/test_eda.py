@@ -1,7 +1,7 @@
 import pandas as pd
 
 from enem_school import config
-from enem_school.eda import INEP_EXTREME_VALUE, count_feature_profile, find_inconsistencies
+from enem_school.eda import INEP_EXTREME_VALUE, count_feature_profile, find_inconsistencies, missing_rates
 
 
 def test_find_inconsistencies_counts_each_rule_and_ignores_missing_values():
@@ -41,3 +41,15 @@ def test_count_feature_profile_reports_the_extreme_value_code_apart_from_the_sca
     assert profile["marcados_88888"] == 1
     assert profile["máximo"] == 30
     assert profile["mediana"] == 20
+
+
+def test_missing_rates_keep_the_feature_order_between_ties():
+    schools = pd.DataFrame({c: [1.0, 1.0, 1.0, 1.0] for c in config.FEATURES})
+    schools.loc[0, config.FEATURES[::2]] = None
+    schools.loc[:1, "IN_BANDA_LARGA"] = None
+
+    rates = missing_rates(schools)
+
+    tied = [c for c in config.FEATURES[::2] if c != "IN_BANDA_LARGA"]
+    assert rates.index[0] == "IN_BANDA_LARGA"
+    assert rates.index.tolist()[1 : len(tied) + 1] == tied

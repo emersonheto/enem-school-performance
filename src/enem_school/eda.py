@@ -41,12 +41,12 @@ def feature_types() -> pd.DataFrame:
 
 
 def missing_rates(schools: pd.DataFrame) -> pd.Series:
-    return schools[config.FEATURES].isna().mean().sort_values(ascending=False)
+    return schools[config.FEATURES].isna().mean().sort_values(ascending=False, kind="stable")
 
 
 def binary_prevalence(schools: pd.DataFrame) -> pd.Series:
     """Share of schools with each binary feature equal to 1, ignoring missing values."""
-    return schools[config.INFRASTRUCTURE_FEATURES].mean().sort_values()
+    return schools[config.INFRASTRUCTURE_FEATURES].mean().sort_values(kind="stable")
 
 
 def count_feature_profile(schools: pd.DataFrame) -> pd.DataFrame:
@@ -78,12 +78,12 @@ def count_feature_profile(schools: pd.DataFrame) -> pd.DataFrame:
 
 def target_by(schools: pd.DataFrame, column: str, labels: dict[int, str]) -> pd.DataFrame:
     grouped = schools.groupby(schools[column].map(labels))[TARGET]
-    return grouped.agg(escolas="count", media="mean", desvio="std", mediana="median").sort_values("media")
+    return grouped.agg(escolas="count", media="mean", desvio="std", mediana="median").sort_values("media", kind="stable")
 
 
 def spearman_with_target(schools: pd.DataFrame) -> pd.Series:
     numeric = config.INFRASTRUCTURE_FEATURES + config.SIZE_FEATURES
-    return schools[numeric].corrwith(schools[TARGET], method="spearman").sort_values()
+    return schools[numeric].corrwith(schools[TARGET], method="spearman").sort_values(kind="stable")
 
 
 def correlated_pairs(schools: pd.DataFrame, threshold: float = 0.8) -> pd.DataFrame:
@@ -95,7 +95,7 @@ def correlated_pairs(schools: pd.DataFrame, threshold: float = 0.8) -> pd.DataFr
         for b in numeric[i + 1 :]
         if abs(corr.loc[a, b]) >= threshold
     ]
-    return pd.DataFrame(pairs, columns=["a", "b", "spearman"]).sort_values("spearman", ascending=False)
+    return pd.DataFrame(pairs, columns=["a", "b", "spearman"]).sort_values("spearman", ascending=False, kind="stable")
 
 
 def noise_by_school_size(schools: pd.DataFrame) -> pd.DataFrame:
