@@ -18,7 +18,7 @@ Trabalho prático de CMP263 (PPGC/UFRGS, 2026/2). Grupo: Artur Mariano, Emerson 
 | `scripts/build_dataset.py` | Gera `data/processed/schools_enem2025_censo2024.parquet` e o `.json` de metadados |
 | `scripts/eda.py` | Gera `reports/eda.md` e as figuras em `reports/figures/` |
 | `reports/eda.md` | Análise exploratória com tabelas e figuras |
-| `notebooks/01_regressao_linear.ipynb` | Regressão linear (modelos A/B e baselines) com validação cruzada agrupada por município |
+| `notebooks/01_regressao_linear.ipynb` | Regressão linear (variantes A/B/C e baselines) com validação cruzada agrupada por município |
 | `reports/results/` | Métricas por dobra e resumo de cada modelo, gravadas pelos notebooks |
 | `tests/` | Testes do pipeline de dados e das regras de inconsistência |
 | `data/` | Dados brutos e processados (fora do git) |
@@ -45,7 +45,7 @@ uv sync --group notebooks                 # adiciona Jupyter ao .venv
 uv run jupyter lab                        # abrir notebooks/ e rodar "Restart Kernel and Run All"
 ```
 
-No Google Colab, abra o notebook pelo GitHub e execute tudo: a primeira célula clona o repositório, instala `requirements.txt` e, se a tabela não existir, roda `build_dataset.py`. Todos os modelos usam o mesmo pré-processamento e o mesmo `GroupKFold(n_splits=5)` por `CO_MUNICIPIO`, para que as métricas sejam comparáveis.
+No Google Colab, abra o notebook pelo GitHub e execute tudo: a primeira célula clona o repositório, instala `requirements.txt` e, se a tabela não existir, roda `build_dataset.py`. Todos os modelos usam o mesmo pré-processamento (`build_preprocessor`) e as mesmas 5 dobras por `CO_MUNICIPIO` (`assign_folds`, com `config.SEED`), ambos de `src/enem_school/preprocessing.py`, para que as métricas sejam comparáveis.
 
 ## Fontes
 

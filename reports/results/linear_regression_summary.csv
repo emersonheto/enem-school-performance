@@ -1,7 +1,8 @@
 ,rmse,rmse,mae,mae,r2,r2
 ,mean,std,mean,std,mean,std
 modelo,,,,,,
-Baseline: média,62.419,1.877,50.234,1.438,-0.002,0.003
-Baseline: rede,39.748,0.765,30.73,0.603,0.593,0.013
-Linear A (com rede),34.063,1.306,25.887,0.626,0.701,0.015
-Linear B (sem rede),36.828,1.674,27.646,0.858,0.651,0.021
+Baseline: média,62.412,1.634,50.247,1.359,-0.003,0.002
+Baseline: rede,39.73,1.042,30.734,0.884,0.594,0.004
+Linear A (com rede),34.32,0.931,26.154,0.538,0.697,0.012
+Linear B (sem rede),37.402,0.811,28.305,0.547,0.64,0.008
+Linear C (sem rede e sem merenda),43.972,1.342,33.633,0.934,0.502,0.01
