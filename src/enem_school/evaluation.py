@@ -1,8 +1,11 @@
-"""Shared nested cross-validation: every algorithm is tuned and evaluated the same way."""
+"""Shared evaluation: every algorithm is tuned, evaluated and compared the same way."""
 
+import itertools
 import time
 
+import numpy as np
 import pandas as pd
+from scipy import stats
 from sklearn.base import clone
 from sklearn.metrics import mean_absolute_error, r2_score, root_mean_squared_error
 from sklearn.model_selection import GridSearchCV, GroupKFold
@@ -13,6 +16,9 @@ from enem_school.preprocessing import N_REPEATS, assign_folds, build_preprocesso
 
 INNER_FOLDS = 3
 PARAM_PREFIX = "regressor__"
+
+# Demšar (2006), Table 5: Nemenyi q_alpha for alpha = 0.05 and k = 2..10 algorithms.
+Q_ALPHA_NEMENYI_005 = {2: 1.960, 3: 2.343, 4: 2.569, 5: 2.728, 6: 2.850, 7: 2.949, 8: 3.031, 9: 3.102, 10: 3.164}
 
 
 def _build_model(regressor, variant: str) -> Pipeline:
@@ -99,3 +105,29 @@ def spot_check(regressors: dict, schools: pd.DataFrame, variant: str = "A", *, r
                     "segundos_treino": fit_seconds,
                 })
     return pd.DataFrame(rows)
+
+
+def compare_algorithms(results: pd.DataFrame) -> dict:
+    """Friedman test over the RMSE of each (repeticao, dobra) block, then the Nemenyi post-hoc (Demšar, 2006).
+
+    Ranks are computed inside each block (1 = lowest RMSE). Two algorithms differ when their average ranks are at
+    least the critical difference apart. Returns friedman_statistic, friedman_p, ranks, critical_difference and
+    significant_pairs.
+    """
+    rmse = results.pivot_table(index=["repeticao", "dobra"], columns="algoritmo", values="rmse")
+    friedman = stats.friedmanchisquare(*[rmse[name] for name in rmse.columns])
+    ranks = rmse.rank(axis=1).mean().sort_values().rename("posto médio")
+
+    k, n_blocks = rmse.shape[1], rmse.shape[0]
+    critical_difference = Q_ALPHA_NEMENYI_005[k] * np.sqrt(k * (k + 1) / (6 * n_blocks))
+    pairs = pd.DataFrame(
+        [{"A": a, "B": b, "diferença de postos": ranks[b] - ranks[a]} for a, b in itertools.combinations(ranks.index, 2)]
+    )
+    significant = pairs[pairs["diferença de postos"] >= critical_difference]
+    return {
+        "friedman_statistic": friedman.statistic,
+        "friedman_p": friedman.pvalue,
+        "ranks": ranks,
+        "critical_difference": critical_difference,
+        "significant_pairs": significant.sort_values("diferença de postos", ascending=False).reset_index(drop=True),
+    }

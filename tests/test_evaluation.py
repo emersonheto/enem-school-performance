@@ -1,11 +1,12 @@
 import numpy as np
+import pandas as pd
 from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.dummy import DummyRegressor
 from sklearn.model_selection import GroupKFold
 from sklearn.neighbors import KNeighborsRegressor
 
 from enem_school import evaluation
-from enem_school.evaluation import nested_cv, spot_check
+from enem_school.evaluation import compare_algorithms, nested_cv, spot_check
 from enem_school.preprocessing import N_FOLDS
 from test_preprocessing import schools_frame
 
@@ -94,3 +95,17 @@ def test_spot_check_gives_every_algorithm_the_same_folds_within_a_repetition():
         seen.setdefault(name, []).append(fingerprint)
     assert seen["a"] == seen["b"]
     assert len(set(seen["a"])) == 2 * N_FOLDS
+
+
+def test_compare_algorithms_ranks_lower_rmse_first_and_flags_only_distant_pairs():
+    rows = []
+    for block, (repeat, fold) in enumerate((r, f) for r in (1, 2, 3) for f in (1, 2, 3, 4, 5)):
+        best, middle = (30.0, 31.0) if block % 2 == 0 else (31.0, 30.0)  # best wins 8 of 15 blocks: a near tie
+        for name, value in {"best": best, "middle": middle, "worst": 40.0}.items():
+            rows.append({"algoritmo": name, "repeticao": repeat, "dobra": fold, "rmse": value})
+
+    comparison = compare_algorithms(pd.DataFrame(rows))
+
+    assert comparison["ranks"].index.tolist() == ["best", "middle", "worst"]
+    assert comparison["friedman_p"] < 0.05
+    assert comparison["significant_pairs"][["A", "B"]].values.tolist() == [["best", "worst"], ["middle", "worst"]]
