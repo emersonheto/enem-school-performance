@@ -27,6 +27,7 @@ VARIANTS = {
 }
 
 N_FOLDS = 5
+N_REPEATS = 3
 
 
 def feature_columns(variant: str = "A") -> list[str]:
@@ -84,10 +85,14 @@ def build_preprocessor(variant: str = "A") -> Pipeline:
     ])
 
 
-def assign_folds(schools: pd.DataFrame) -> pd.Series:
-    """Fold number (0..N_FOLDS-1) for each school, grouping by municipality, with config.SEED."""
+def assign_folds(schools: pd.DataFrame, repeat: int = 0) -> pd.Series:
+    """Fold number (0..N_FOLDS-1) for each school, grouping by municipality.
+
+    Each repetition shuffles the municipalities differently (seed config.SEED + repeat); repeat=0 is the
+    original single partition.
+    """
     folds = pd.Series(-1, index=schools.index, name="fold")
-    splitter = GroupKFold(n_splits=N_FOLDS, shuffle=True, random_state=config.SEED)
+    splitter = GroupKFold(n_splits=N_FOLDS, shuffle=True, random_state=config.SEED + repeat)
     for fold, (_, test_rows) in enumerate(splitter.split(schools, groups=schools["CO_MUNICIPIO"])):
         folds.iloc[test_rows] = fold
     return folds
