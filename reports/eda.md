@@ -74,17 +74,38 @@ Gerado por `scripts/eda.py` a partir de `data/processed/schools_enem2025_censo20
 |                               |   faltantes |
 |:------------------------------|------------:|
 | IN_BANDA_LARGA                |      0.0195 |
+| IN_AGUA_REDE_PUBLICA          |      0.0008 |
+| IN_ENERGIA_REDE_PUBLICA       |      0.0008 |
+| IN_ESGOTO_REDE_PUBLICA        |      0.0008 |
 | IN_AGUA_POTAVEL               |      0.0008 |
-| QT_MAT_MED                    |      0.0008 |
+| IN_BANHEIRO                   |      0.0008 |
+| IN_BANHEIRO_PNE               |      0.0008 |
+| IN_ALIMENTACAO                |      0.0008 |
+| IN_REFEITORIO                 |      0.0008 |
+| IN_BIBLIOTECA                 |      0.0008 |
+| IN_BIBLIOTECA_SALA_LEITURA    |      0.0008 |
+| IN_SALA_LEITURA               |      0.0008 |
+| IN_LIXO_SERVICO_COLETA        |      0.0008 |
+| IN_LABORATORIO_CIENCIAS       |      0.0008 |
+| IN_LABORATORIO_INFORMATICA    |      0.0008 |
+| IN_QUADRA_ESPORTES            |      0.0008 |
+| IN_AUDITORIO                  |      0.0008 |
+| IN_PATIO_COBERTO              |      0.0008 |
+| IN_SALA_ATENDIMENTO_ESPECIAL  |      0.0008 |
+| IN_ACESSIBILIDADE_RAMPAS      |      0.0008 |
+| IN_QUADRA_ESPORTES_COBERTA    |      0.0008 |
+| IN_COMPUTADOR                 |      0.0008 |
+| IN_DESKTOP_ALUNO              |      0.0008 |
 | IN_COMP_PORTATIL_ALUNO        |      0.0008 |
 | IN_TABLET_ALUNO               |      0.0008 |
 | IN_EQUIP_MULTIMIDIA           |      0.0008 |
 | IN_EQUIP_LOUSA_DIGITAL        |      0.0008 |
 | IN_INTERNET                   |      0.0008 |
+| IN_ACESSIBILIDADE_INEXISTENTE |      0.0008 |
 | IN_INTERNET_ALUNOS            |      0.0008 |
 | IN_INTERNET_APRENDIZAGEM      |      0.0008 |
+| QT_MAT_MED                    |      0.0008 |
 | QT_DOC_MED                    |      0.0008 |
-| IN_COMPUTADOR                 |      0.0008 |
 | QT_TUR_MED                    |      0.0008 |
 | QT_MAT_MED_INT                |      0.0008 |
 | QT_MAT_MED_CT                 |      0.0008 |
@@ -93,27 +114,6 @@ Gerado por `scripts/eda.py` a partir de `data/processed/schools_enem2025_censo20
 | QT_DESKTOP_ALUNO              |      0.0008 |
 | QT_COMP_PORTATIL_ALUNO        |      0.0008 |
 | TP_LOCALIZACAO_DIFERENCIADA   |      0.0008 |
-| IN_AGUA_REDE_PUBLICA          |      0.0008 |
-| IN_DESKTOP_ALUNO              |      0.0008 |
-| IN_ACESSIBILIDADE_INEXISTENTE |      0.0008 |
-| IN_BIBLIOTECA_SALA_LEITURA    |      0.0008 |
-| IN_ENERGIA_REDE_PUBLICA       |      0.0008 |
-| IN_ESGOTO_REDE_PUBLICA        |      0.0008 |
-| IN_LIXO_SERVICO_COLETA        |      0.0008 |
-| IN_BANHEIRO                   |      0.0008 |
-| IN_BANHEIRO_PNE               |      0.0008 |
-| IN_ALIMENTACAO                |      0.0008 |
-| IN_REFEITORIO                 |      0.0008 |
-| IN_ACESSIBILIDADE_RAMPAS      |      0.0008 |
-| IN_BIBLIOTECA                 |      0.0008 |
-| IN_SALA_LEITURA               |      0.0008 |
-| IN_LABORATORIO_CIENCIAS       |      0.0008 |
-| IN_LABORATORIO_INFORMATICA    |      0.0008 |
-| IN_AUDITORIO                  |      0.0008 |
-| IN_QUADRA_ESPORTES            |      0.0008 |
-| IN_QUADRA_ESPORTES_COBERTA    |      0.0008 |
-| IN_PATIO_COBERTO              |      0.0008 |
-| IN_SALA_ATENDIMENTO_ESPECIAL  |      0.0008 |
 
 ## Atributos binários (infraestrutura)
 
