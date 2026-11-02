@@ -97,3 +97,13 @@ def test_assign_folds_keeps_each_municipality_in_one_fold_and_is_reproducible():
     assert schools.groupby("CO_MUNICIPIO")["CO_MUNICIPIO"].size().index.size == 12
     assert (folds.groupby(schools["CO_MUNICIPIO"]).nunique() == 1).all()
     pd.testing.assert_series_equal(folds, assign_folds(schools))
+
+
+def test_assign_folds_repeat_zero_is_the_default_and_other_repeats_reshuffle_municipalities():
+    schools = schools_frame(n=200)
+
+    reshuffled = assign_folds(schools, repeat=1)
+
+    pd.testing.assert_series_equal(assign_folds(schools, repeat=0), assign_folds(schools))
+    assert not reshuffled.equals(assign_folds(schools))
+    assert (reshuffled.groupby(schools["CO_MUNICIPIO"]).nunique() == 1).all()
