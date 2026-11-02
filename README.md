@@ -19,6 +19,7 @@ Trabalho prático de CMP263 (PPGC/UFRGS, 2026/2). Grupo: Artur Mariano, Emerson 
 | `scripts/eda.py` | Gera `reports/eda.md` e as figuras em `reports/figures/` |
 | `reports/eda.md` | Análise exploratória com tabelas e figuras |
 | `notebooks/01_regressao_linear.ipynb` | Regressão linear (variantes A/B/C e baselines) com validação cruzada agrupada por município |
+| `notebooks/02_spot_checking.ipynb` | Spot-checking de 6 algoritmos com hiperparâmetros padrão (3×5 dobras por município), com teste de Friedman e pós-teste de Nemenyi |
 | `reports/results/` | Métricas por dobra e resumo de cada modelo, gravadas pelos notebooks |
 | `tests/` | Testes do pipeline de dados e das regras de inconsistência |
 | `data/` | Dados brutos e processados (fora do git) |
