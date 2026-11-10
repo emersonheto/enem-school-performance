@@ -1,7 +1,47 @@
 \section{Related Work}
 \label{sec:related-work}
 
-% TODO (group writes the text). Cover: prior work on predicting educational performance from
-% school/socioeconomic factors (ENEM, INEP data, school effects); ML for educational data mining;
-% model comparison methodology (repeated CV, Friedman/Nemenyi) and SHAP-based interpretation.
-% Only cite verified references from references.bib (T17).
+% DRAFT (AI-assisted, to be reviewed and rewritten by the group; declare in ai_use_statement).
+
+\paragraph{Educational inequality and ENEM.}
+The relation between school characteristics and ENEM results has been studied mainly with
+econometric methods. Greg\'orio Filho et al.~\cite{gregorio2026hiato} apply unconditional
+quantile regression and decomposition to ENEM microdata and find that the performance gap
+between public and private schools is present along the whole score distribution, grows at the
+higher percentiles, and is mostly, but not entirely, explained by the socioeconomic composition
+of the students. Their goal is to explain the gap, not to predict school performance, and they
+do not evaluate the out-of-sample accuracy of their models.
+
+\paragraph{Machine learning on Brazilian educational data.}
+Maia et al.~\cite{maia2021assessing} combine school indicators, socioeconomic variables, and
+school-structure variables from the Censo Escolar to model the performance of different Brazilian
+school cycles. They report that a non-linear model outperforms a linear one and that the
+importance of the variables differs across regions and cycles. Closer to our setting,
+Tertulino et al.~\cite{tertulino2026fatores} predict individual ENEM 2022 scores in the state of
+Rio Grande do Norte with a random forest and explain it with SHAP \cite{lundberg2017unified}; the
+most important predictors are parental education, family income, school type, and digital
+access. In the context of higher education, Sakashita et al.~\cite{sakashita2023predicao} apply
+machine learning to INEP microdata to predict the ENADE score of computing programs. These
+studies use either student-level socioeconomic questionnaires or a single learning algorithm,
+and none of them reports cross-validation grouped by geographic unit or nested
+cross-validation.
+
+\paragraph{Evaluation methodology.}
+When hyperparameters are selected on the same data used to estimate performance, the estimate
+is optimistically biased; nested cross-validation avoids this bias \cite{cawley2010overfitting}.
+When observations share a spatial or hierarchical structure, as schools in the same municipality
+do, random partitions place related observations in both training and test sets, and grouped or
+blocked cross-validation gives more realistic estimates \cite{roberts2017crossvalidation}. To
+compare several algorithms over the resulting folds, Dem\v{s}ar~\cite{demsar2006statistical}
+recommends the Friedman test followed by the Nemenyi post-hoc test.
+
+\paragraph{Positioning of this work.}
+Compared with these studies, our work (i) uses the school as the unit of analysis and only
+structural attributes from the Censo Escolar, without the students' socioeconomic
+questionnaire; (ii) evaluates six algorithms with cross-validation grouped by municipality,
+repeated partitions shared by all algorithms, and nested hyperparameter tuning; and
+(iii) compares the algorithms with statistical tests and interprets the best model with SHAP and
+ablations of the administrative network. Since we predict school means rather than individual
+scores, our error and $R^2$ values are not directly comparable with student-level studies such
+as \cite{tertulino2026fatores}: averaging over students removes much of the individual
+variability.
