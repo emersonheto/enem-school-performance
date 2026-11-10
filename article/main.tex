@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage{booktabs}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\graphicspath{{../reports/figures/}{reports/figures/}}
+
+\sloppy
+
+% TODO: replace with the final title (research question: do structural
+% characteristics of a school predict the average ENEM 2025 performance of its students?)
+\title{TODO: Title -- Predicting School-Level ENEM 2025 Performance from Structural Characteristics}
+
+\author{Artur Mariano\inst{1}, Emerson Herrera\inst{1}, Yaser Husein\inst{1}}
+
+\address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
+  Porto Alegre -- RS -- Brazil
+  \email{\{TODO-email-1,TODO-email-2,TODO-email-3\}@inf.ufrgs.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  % TODO: abstract (max. 10 lines, first page): problem, data (ENEM 2025 + School Census 2024),
+  % method (grouped repeated CV, spot-checking, nested CV), main result, interpretation.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/data_and_eda}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/interpretation}
+\input{sections/reproducibility}
+\input{sections/conclusion}
+\input{sections/ai_use_statement}
+
+\bibliographystyle{sbc}
+\bibliography{references}
+
+% TODO: supplementary material (appendix or separate file, not counted in the 20 pages?
+% confirm with the assignment statement): prompts used with AI tools and observed limitations.
+
+\end{document}

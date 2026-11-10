@@ -1,0 +1,29 @@
+\section{Methodology}
+\label{sec:methodology}
+
+% TODO (group writes the text). Subsections suggested:
+%
+% \subsection{Preprocessing}
+% 88888 -> missing + indicator; median / most-frequent imputation; log1p + StandardScaler on counts;
+% one-hot for categoricals; CO_REGIAO and QT_TUR_MED dropped; everything inside a scikit-learn
+% Pipeline fitted only on training folds (no leakage). Code: src/enem_school/preprocessing.py.
+%
+% \subsection{Grouped cross-validation by municipality}
+% GroupKFold by municipality, fixed seed 42; why grouping (schools of the same municipality are
+% not independent). Code: assign_folds.
+%
+% \subsection{Repeated 3x5 evaluation}
+% 3 repetitions of 5 folds, same partitions for all algorithms in each iteration (assignment
+% requirement); metrics RMSE, MAE, R^2.
+%
+% \subsection{Spot-checking}
+% 6 algorithms with default hyperparameters + baselines (mean; administrative network).
+% Notebook: notebooks/02_spot_checking.ipynb.
+%
+% \subsection{Hyperparameter tuning with nested CV}
+% Outer = same grouped 3x5 folds; inner = GroupKFold(3) by municipality; GridSearchCV over small
+% grids for tree, SVR, Random Forest, Gradient Boosting; discarded configs (e.g. SVR C=100,
+% 137 s/fit). Notebook: notebooks/03_otimizacao.ipynb. Code: src/enem_school/evaluation.py.
+%
+% \subsection{Statistical comparison}
+% Friedman test + Nemenyi post-hoc (critical difference); describe the setup used.

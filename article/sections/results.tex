@@ -1,0 +1,40 @@
+\section{Results}
+\label{sec:results}
+
+% TODO (group writes the text). Cover:
+% - Baselines and linear regression (Table~\ref{tab:linear}); source: reports/results/linear_regression_summary.csv.
+% - Spot-checking of default models (Table~\ref{tab:spot}, Figure~\ref{fig:spot}); source:
+%   reports/results/spot_checking_summary.csv, spot_checking.csv; Friedman p-value and Nemenyi
+%   critical difference come from notebooks/02_spot_checking.ipynb outputs (not yet in a CSV).
+% - Tuned models via nested CV (Table~\ref{tab:tuned}); source: reports/results/otimizacao_summary.csv,
+%   otimizacao.csv (per-fold hyperparameters; note that SVR and GB pick grid borders -- a limitation).
+% - Friedman + Nemenyi on the tuned models: from notebooks/03_otimizacao.ipynb outputs.
+% - Training time vs performance trade-off.
+
+\begin{table}[ht]
+  \centering
+  \caption{TODO: caption -- baselines and linear regression variants (mean $\pm$ std over 3$\times$5 folds).}
+  \label{tab:linear}
+  \input{tables/linear_regression}
+\end{table}
+
+\begin{table}[ht]
+  \centering
+  \caption{TODO: caption -- spot-checking with default hyperparameters.}
+  \label{tab:spot}
+  \input{tables/spot_checking}
+\end{table}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{spot_checking_rmse.png}
+  \caption{TODO: caption -- RMSE distribution per algorithm in spot-checking.}
+  \label{fig:spot}
+\end{figure}
+
+\begin{table}[ht]
+  \centering
+  \caption{TODO: caption -- default vs.\ tuned hyperparameters (nested CV).}
+  \label{tab:tuned}
+  \input{tables/otimizacao}
+\end{table}
