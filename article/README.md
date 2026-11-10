@@ -21,6 +21,7 @@ Com LaTeX instalado, a partir de `article/`:
 
 ```bash
 latexmk -pdf main.tex
+# ou, sem instalar o TeX Live inteiro: tectonic -X compile main.tex
 ```
 
 No Overleaf: envie a pasta `article/` e, dentro dela, a pasta `reports/figures/` (o `\graphicspath` também procura `reports/figures/` a partir da raiz do projeto).
