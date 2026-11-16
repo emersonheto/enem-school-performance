@@ -13,13 +13,14 @@
 
 % TODO: replace with the final title (research question: do structural
 % characteristics of a school predict the average ENEM 2025 performance of its students?)
-\title{TODO: Title -- Predicting School-Level ENEM 2025 Performance from Structural Characteristics}
+\title{Do School Characteristics Predict ENEM Performance? A Grouped and Nested
+  Evaluation of Regression Models on Brazilian High Schools}
 
-\author{Artur Mariano\inst{1}, Emerson Herrera\inst{1}, Yaser Husein\inst{1}}
+\author{Artur Mariano da Silva\inst{1}, Emerson Herrera\inst{1}, Yaser Husein\inst{1}}
 
 \address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
   Porto Alegre -- RS -- Brazil
-  \email{\{TODO-email-1,TODO-email-2,TODO-email-3\}@inf.ufrgs.br}
+  \email{\{artur.mariano,TODO-email-2,TODO-email-3\}@inf.ufrgs.br}
 }
 
 \begin{document}
@@ -29,6 +30,15 @@
 \begin{abstract}
   % TODO: abstract (max. 10 lines, first page): problem, data (ENEM 2025 + School Census 2024),
   % method (grouped repeated CV, spot-checking, nested CV), main result, interpretation.
+  
+We investigate to what extent the structural characteristics of Brazilian high schools predict the average ENEM 2025 score of their students. Joining the ENEM 2025 results with the Censo  Escolar 2024, we build a data set of 23{,}374 schools described by 45 attributes of
+  infrastructure, size, network, and location. Six regression algorithms are compared with
+  cross-validation grouped by municipality and repeated three times, followed by nested
+  cross-validation for hyperparameter tuning and the Friedman and Nemenyi tests. A tuned gradient
+  boosting model reaches an RMSE of 30.6 points ($R^2 = 0.76$), statistically tied with SVR,
+  against 39.7 points when only the administrative network is known. SHAP values and ablations
+  show that the network dominates the predictions, but the remaining structural attributes still
+  explain $R^2 = 0.64$ without it.
 \end{abstract}
 
 \input{sections/introduction}

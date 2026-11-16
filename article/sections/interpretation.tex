@@ -11,10 +11,35 @@
 % - Linear model coefficients and residuals if useful: linreg_coefficients.png, linreg_residuals.png.
 % - Limitations: structural features are proxies of socioeconomic status; no causal claim.
 
+\subsection{Which attributes matter}
+
+Figure~\ref{fig:shap} shows the SHAP values of the 15 most important attributes. The
+administrative network dominates: the indicator of a \emph{state} school (\texttt{TP\_DEPENDENCIA\_2})
+has a mean absolute SHAP value of 37.7 points, seven times that of the second attribute. Being a
+state school lowers the prediction by about 30 points, and not being one raises it by 50 to 85
+points. The model thus uses ``state or not'' as its main public/private split, since state schools
+are the large majority of the public schools in the data.
+
+Among the structural attributes, the most important is the number of high-school teachers
+(\texttt{QT\_DOC\_MED}, 5.2 points), with schools with few teachers losing up to about 40 points.
+The state also matters: being in Minas Gerais, S\~ao Paulo, or Rio Grande do Sul raises the
+prediction, a regional effect that the structure of the schools does not explain. Most of the
+remaining directions agree with intuition: connection to the public sewage network,
+air-conditioned rooms, science laboratory, computers for students, and full-time enrolment raise
+the prediction, while school meals lower it, consistent with being a proxy for the public network.
+A less obvious result is that the number of technical integrated enrolments
+(\texttt{QT\_MAT\_MED\_CT}) pushes the prediction in both directions. A likely reason is that this
+attribute mixes federal institutes, which have high scores, with state technical schools, which
+do not.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{shap_beeswarm.png}
-  \caption{TODO: caption -- SHAP summary (beeswarm) of the tuned Gradient Boosting.}
+  \caption{SHAP summary of the tuned gradient boosting model. Each point is a school; the
+    horizontal position is the contribution of the attribute to the predicted score, in ENEM
+    points, and the color is the value of the attribute (red: high or present; blue: low or
+    absent). Counts are $\log(1+x)$ standardized; \texttt{TP\_DEPENDENCIA\_2} indicates a state
+    school.}
   \label{fig:shap}
 \end{figure}
 
