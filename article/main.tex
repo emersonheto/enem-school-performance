@@ -1,0 +1,57 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+\usepackage{graphicx,url}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+\graphicspath{{../reports/figures/}{reports/figures/}}
+
+\sloppy
+
+\title{Do School Characteristics Predict ENEM Performance? A Grouped and Nested
+  Evaluation of Regression Models on Brazilian High Schools}
+
+\author{Artur Mariano da Silva\inst{1}, Emerson Herrera\inst{1}, Yaser Husein\inst{1}}
+
+\address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul (UFRGS)\\
+  Porto Alegre -- RS -- Brazil
+  \email{artur.mariano@inf.ufrgs.br, emerson.herrera@ufrgs.br, yaser.yasin@inf.ufrgs.br}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  We investigate to what extent the structural characteristics of Brazilian high schools predict
+  the average ENEM 2025 score of their students. Joining ENEM 2025 with the Censo Escolar 2024,
+  we build a data set of 23,374 schools described by 45 attributes. Six regression algorithms are
+  compared with grouped, repeated, and nested cross-validation and the Friedman and Nemenyi tests.
+  A tuned gradient boosting model reaches an RMSE of 30.6 points ($R^2 = 0.76$), against 39.7
+  points when only the administrative network is known. SHAP values and ablations show that the
+  network dominates the predictions, but the other structural attributes still explain
+  $R^2 = 0.73$ without it.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/data_and_eda}
+\input{sections/methodology}
+\input{sections/results}
+\input{sections/interpretation}
+\input{sections/reproducibility}
+\input{sections/conclusion}
+\input{sections/ai_use_statement}
+
+\bibliographystyle{sbc}
+\bibliography{references}
+
+% TODO: supplementary material (appendix or separate file, not counted in the 20 pages?
+% confirm with the assignment statement): prompts used with AI tools and observed limitations.
+
+\end{document}

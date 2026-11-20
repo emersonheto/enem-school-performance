@@ -1,0 +1,36 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This work asked to what extent the structural characteristics of a Brazilian high school predict
+the average ENEM score of its students. On 23{,}374 schools and under a protocol built to avoid
+inflated error estimates (cross-validation grouped by municipality, identical repeated partitions
+for all algorithms, and nested tuning), they predict a large share of it. A tuned gradient boosting
+model reaches an RMSE of 30.6 points ($R^2 = 0.76$), against 62.4 points when predicting the mean
+and 39.7 points when only the administrative network is known. Gradient boosting, the SVR, and the
+random forest are within 0.3 RMSE points of each other, so the choice among them matters much less
+than the evaluation protocol and the features.
+
+Most of this predictive power is tied to whether the school is public or private. The
+administrative network dominates the SHAP values, and the school-meal indicator acts as a second
+proxy for it. Without the network, gradient boosting loses little ($R^2 = 0.73$), because it
+reconstructs it from the other attributes; without the network and the school meals, the
+remaining structural attributes still explain $R^2 = 0.64$, against 0.50 for linear regression.
+The errors are also not uniform: federal schools are underpredicted in the Southeast and South and
+overpredicted in the North and Center-West, which suggests that a single national effect of the
+network hides regional differences.
+
+As discussed in Section~\ref{sec:interp-limitations}, these results describe associations, not
+causes. The analysis is at
+the school level and does not describe individual students, and it covers only schools with at
+least ten candidates present in all ENEM tests. It also relies on a single exam year and on the
+2024 census, one year before the exam; the schools with no high-school enrolment in the census
+(253) or with more candidates than enrolments (276) show that the lag is real, although its effect
+should be small for slowly changing structural attributes. Some selected hyperparameters lie on the border of the grids, so the tuned
+models might still improve. Finally, the p-values of the statistical tests are optimistic because
+the cross-validation measurements are not independent.
+
+Future work could add an indicator of the socioeconomic level of the students, to separate the
+contribution of the school structure from that of its students; repeat the study over several
+ENEM editions, with the census of the same year and a temporal validation; and study the schools
+that perform well above what their structure predicts, which are natural candidates for
+identifying effective practices.

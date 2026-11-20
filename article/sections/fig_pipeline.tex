@@ -1,0 +1,33 @@
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, inner sep=3pt,
+        text width=0.9\linewidth},
+      half/.style={box, text width=0.42\linewidth},
+      arr/.style={-{Stealth[length=5pt]}, thick},
+      node distance=0.45cm]
+    \node[half] (enem) {ENEM 2025 results};
+    \node[half, right=0.12\linewidth of enem] (censo) {Censo Escolar 2024};
+    \node[box, below=of enem, xshift=0.27\linewidth, fill=gray!15] (join)
+      {Join by school: 23,374 schools, 45 attributes};
+    \node[box, below=of join] (prep)
+      {Preprocessing \texttt{Pipeline} (fitted only on the training folds)};
+    \node[box, below=of prep] (outer)
+      {Outer CV: 5 folds grouped by municipality $\times$ 3 repetitions\\
+       = 15 partitions, shared by all algorithms};
+    \node[box, below=of outer] (inner)
+      {Inner CV (\texttt{GroupKFold(3)} by municipality):\\
+       grid search of the hyperparameters (nested CV)};
+    \node[box, below=of inner] (comp)
+      {Comparison: 6 algorithms + baselines,\\ Friedman + Nemenyi};
+    \node[box, below=of comp, fill=gray!15] (best) {Best model: tuned gradient boosting};
+    \node[box, below=of best] (interp)
+      {Interpretation: SHAP, feature-set variants A/B/C,\\ residuals by network $\times$ region};
+    \draw[arr] (enem.south) -- ++(0,-0.2) -| ([xshift=-0.2\linewidth]join.north);
+    \draw[arr] (censo.south) -- ++(0,-0.2) -| ([xshift=0.2\linewidth]join.north);
+    \foreach \a/\b in {join/prep, prep/outer, outer/inner, inner/comp, comp/best, best/interp}
+      \draw[arr] (\a) -- (\b);
+  \end{tikzpicture}
+  \caption{Overview of the data preparation and of the evaluation protocol.}
+  \label{fig:pipeline}
+\end{figure}

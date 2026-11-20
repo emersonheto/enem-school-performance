@@ -1,0 +1,100 @@
+\section{Methodology}
+\label{sec:methodology}
+
+All the algorithms are evaluated with the same preprocessing and the same partitions, described below; Figure~\ref{fig:pipeline} summarizes the whole procedure.
+
+\input{sections/fig_pipeline}
+
+\subsection{Preprocessing}
+\label{sec:preprocessing}
+
+The preprocessing follows the issues found in Section~\ref{sec:data}. Two attributes are dropped
+because they are redundant: the region (\texttt{CO\_REGIAO}), determined by the state, and the
+number of high-school classes (\texttt{QT\_TUR\_MED}), with Spearman 0.96 to enrolments. The
+extreme-value code 88888 becomes a missing value, and a binary indicator records that the school
+had it, so that the information is not lost. The remaining attributes are treated by type:
+\begin{itemize}
+  \item \emph{Counts} (8): median imputation, $\log(1+x)$ to reduce the skew, and standardization;
+  \item \emph{Binary indicators} (31, plus the 2 extreme-value indicators): imputation by the most
+        frequent value and no scaling, since they are already 0/1 and scaling would give rare
+        indicators a large weight in distance-based models;
+  \item \emph{Categorical attributes} (administrative network, location, differentiated location,
+        and state): imputation by the most frequent value and one-hot encoding, ignoring categories
+        unseen in training.
+\end{itemize}
+The result has 79 columns. Every step that learns from the data (medians, modes, means, scales,
+and categories) is part of a scikit-learn \texttt{Pipeline} together with the model, so it is
+fitted only on the training schools of each fold and no information leaks from the test schools.
+
+\subsection{Evaluation protocol}
+\label{sec:protocol}
+
+\paragraph{Grouped partitions.} Schools of the same municipality share socioeconomic context and
+tend to have similar scores. If they were split between training and test, a model could predict a
+school from its neighbours and the error would be underestimated \cite{roberts2017crossvalidation}.
+All partitions are therefore grouped by municipality (\texttt{GroupKFold}): the 5{,}201
+municipalities, and not the schools, are assigned to the folds.
+
+\paragraph{Repetitions.} The outer evaluation uses 5 folds repeated 3 times, each repetition with a
+different shuffle of the municipalities (seed $42 + r$ for repetition $r$), for 15 measurements per
+algorithm. The folds of each repetition are computed once and shared by all the algorithms, so the
+comparisons are paired.
+
+\paragraph{Metrics.} The main metric is the root mean squared error (RMSE), in ENEM points: it is
+directly interpretable on the scale of the exam and penalizes large errors, which matter when the
+model is used to flag schools far from what their structure predicts. The mean absolute error (MAE)
+and $R^2$ are reported as secondary metrics. Two baselines give the reference points: the mean of
+the training schools, and a linear regression on the administrative network alone. To measure
+how much the network explains, models are evaluated on three feature-set variants: A (all
+attributes), B (without the administrative network), and C (without the network and the
+school-meal indicator).
+
+\subsection{Spot-checking and hyperparameter tuning}
+\label{sec:tuning}
+
+We first compare six algorithms with different inductive biases, using the default
+hyperparameters of scikit-learn: linear regression, $k$-NN, a decision tree, SVR with RBF kernel,
+random forest, and gradient boosting. For the SVR, the target is standardized during training
+(\texttt{TransformedTargetRegressor}), since its default $C$ and $\varepsilon$ assume a target of
+unit scale, while the school mean has a standard deviation of 62 points; predictions are converted
+back to ENEM points.
+
+The best algorithms of the spot-checking are then tuned with nested cross-validation
+\cite{cawley2010overfitting}. The outer loop is the same $3 \times 5$ grouped protocol, which
+measures the error. Inside each outer training set, a grid search (\texttt{GridSearchCV}) with 3
+folds, also grouped by municipality, selects the hyperparameters by RMSE; the selected model is
+refitted on the whole outer training set and evaluated once on the outer test fold. Grouping the
+inner folds matters: otherwise the search would favour models that exploit neighbouring schools,
+such as $k$-NN with a small $k$. Table~\ref{tab:grids} lists the grids. They were kept small
+because each combination is trained 45 times; for the SVR, $C$ is limited to 10 because $C = 100$
+took about 140~s per fit, against about 10~s for $C = 10$.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Hyperparameter grids of the nested cross-validation.}
+  \label{tab:grids}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{lll}
+    \hline
+    Algorithm & Hyperparameters & Combinations \\
+    \hline
+    Decision tree & \texttt{max\_depth} $\in \{5, 10, 15, 20\}$, \texttt{min\_samples\_leaf} $\in \{1, 10, 50\}$ & 12 \\
+    SVR (standardized target) & $C \in \{1, 3, 10\}$, $\varepsilon \in \{0.1, 0.3\}$ & 6 \\
+    Random forest (100 trees) & \texttt{max\_depth} $\in \{10, 20, \mathrm{none}\}$, \texttt{min\_samples\_leaf} $\in \{1, 5\}$ & 6 \\
+    Gradient boosting (300 trees) & \texttt{learning\_rate} $\in \{0.05, 0.1\}$, \texttt{max\_depth} $\in \{3, 5\}$ & 4 \\
+    \hline
+  \end{tabular}}
+\end{table}
+
+\subsection{Statistical comparison}
+\label{sec:stats}
+
+Following Dem\v{s}ar~\cite{demsar2006statistical}, the algorithms are compared with the Friedman test over
+the 15 paired measurements of RMSE: in each of them (a block), the algorithms are ranked from 1
+(lowest error) upwards, and the test checks whether the average ranks differ more than expected by
+chance ($\alpha = 0.05$). When it rejects the null hypothesis, the Nemenyi post-hoc test declares
+two algorithms different if their average ranks differ by at least the critical difference
+$CD = q_\alpha \sqrt{k(k+1)/(6N)}$, with $k$ algorithms and $N = 15$ blocks. The mean baseline is
+left out of the tests. Since the training sets of different folds and repetitions overlap, the
+measurements are not independent and the p-values are optimistic; we use the tests as a guide
+together with the size of the differences in RMSE points, not as proof of superiority.

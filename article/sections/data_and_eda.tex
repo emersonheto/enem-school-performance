@@ -1,0 +1,95 @@
+\section{Data and Exploratory Analysis}
+\label{sec:data}
+
+\subsection{Sources and construction of the data set}
+
+Two public data sets published by INEP were used: the ENEM 2025 microdata
+\cite{inep2025enem}, file \texttt{RESULTADOS\_2025.csv}, available at
+\url{https://download.inep.gov.br/microdados/microdados_enem_2025.zip}, and the Censo Escolar
+2024 microdata \cite{inep2024censo}, available at
+\url{https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2024.zip}. The 2024
+census was selected because the 2025 edition had not been published when the data were collected; the
+structural characteristics of a school change slowly, so the one-year lag should have little
+effect, but we return to it in Section~\ref{sec:conclusion}.
+
+A candidate is kept only if present in the four ENEM tests, with the five scores (natural
+sciences, human sciences, languages, mathematics, and essay) and a school code. This leaves
+1{,}288{,}485 candidates in 29{,}341 schools. For each candidate we take the mean of the five
+scores, and for each school the mean over its candidates; this school mean, \texttt{nota\_media},
+is the target. We keep schools with at least ten valid candidates (23{,}570 schools), so that the
+target is not dominated by a handful of students, and join them with the census by school code.
+The final table has \textbf{23{,}374 schools} (99.2\% of the schools above the threshold) in
+5{,}201 municipalities.
+
+Each school is described by 45 attributes from the census, chosen to represent what a school or
+an education department can act upon: 31 binary infrastructure indicators (\texttt{IN\_*}, e.g.,
+science laboratory, library, internet for students, school meals), 9 counts of size and resources
+(\texttt{QT\_*}, e.g., high-school enrolment, teachers, rooms, computers), and 5 categorical
+attributes of network and location (administrative network \texttt{TP\_DEPENDENCIA}, urban/rural
+location, differentiated location, region, and state). The municipality code is used only to
+define the cross-validation groups (Section~\ref{sec:methodology}) and is never a model input.
+
+
+\paragraph{Target.} The school mean ranges from 315 to 801 points, with mean 524.7, median 510.7,
+and standard deviation 62.4, and is right-skewed (skewness 0.67; Figure~\ref{fig:target-hist}).
+The administrative network separates the schools sharply (Figure~\ref{fig:target-dependencia}):
+state schools, about 70\% of the data (16{,}248), average 492.9 points, against 580.5 for the 600
+federal schools and 599.4 for the 6{,}442 private schools; the 84 municipal schools average 526.5.
+Regional differences are smaller but consistent (Figure~\ref{fig:target-regiao}), from 488.2 points
+in the North to 539.9 in the Southeast.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.55\textwidth]{target_hist.png}
+  \caption{Distribution of the target, the school mean of the five ENEM 2025 scores
+    (23{,}374 schools).}
+  \label{fig:target-hist}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{target_by_dependencia.png}
+    \caption{School mean score by administrative network.}
+    \label{fig:target-dependencia}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{target_by_regiao.png}
+    \caption{School mean score by region.}
+    \label{fig:target-regiao}
+  \end{minipage}
+\end{figure}
+
+\paragraph{Association with the target.} The attribute most associated with the target is
+\texttt{IN\_ALIMENTACAO}, the provision of school meals (Spearman $\rho = -0.67$). Meals are
+provided by the federal school-meal program to public schools, so this indicator is in practice a
+second proxy for the public network. Among the structural attributes, the strongest positive
+associations are rooms in use ($\rho = 0.41$), connection to the public sewage network ($0.33$),
+auditorium and air-conditioned rooms ($0.25$ each), and science laboratory ($0.24$); the number of
+high-school classes ($-0.35$) and enrolments ($-0.31$) are negatively associated.
+
+\paragraph{Data quality.} We found the following issues, each handled in the preprocessing
+(Section~\ref{sec:methodology}):
+\begin{itemize}
+  \item \emph{Missing values} are rare: 41 attributes have some, but at most 1.95\%
+        (broadband) and 0.08\% for the others; 456 schools have at least one missing value.
+  \item \emph{Extreme-value code.} The census marks implausible counts of computers with the code
+        88888 (``record marked as an extreme value'' in the data dictionary). It appears in 15
+        schools, in \texttt{QT\_DESKTOP\_ALUNO} (11) and \texttt{QT\_COMP\_PORTATIL\_ALUNO} (4), and
+        must not be read as a count.
+  \item \emph{Skewed counts.} The counts are strongly right-skewed (skewness up to 18.4, for rooms
+        in use) and have outliers by the interquartile-range rule in 3\% to 22\% of the schools.
+        We keep these schools, since large schools are real, and reduce the skew with a log
+        transform.
+  \item \emph{Redundant attributes.} High-school enrolments and classes are almost perfectly
+        correlated (Spearman 0.96), and the region is determined by the state.
+  \item \emph{Near-constant attributes.} Six binary indicators (e.g., electricity, water,
+        bathroom) are present in more than 98\% of the schools. We keep them because they cost
+        little and may still separate a few schools.
+  \item \emph{Inconsistencies between sources.} In 253 schools the 2024 census reports no
+        high-school enrolment, and in 276 the number of ENEM 2025 candidates exceeds it. Both are
+        expected when a school changes its offer between the census year and the exam year, so we
+        keep these schools.
+\end{itemize}

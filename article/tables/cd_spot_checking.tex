@@ -1,0 +1,19 @@
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+\draw (0,0) -- (5.0,0);
+\draw (0.0,0) -- (0.0,0.1) node[above]{1};
+\draw (1.0,0) -- (1.0,0.1) node[above]{2};
+\draw (2.0,0) -- (2.0,0.1) node[above]{3};
+\draw (3.0,0) -- (3.0,0.1) node[above]{4};
+\draw (4.0,0) -- (4.0,0.1) node[above]{5};
+\draw (5.0,0) -- (5.0,0.1) node[above]{6};
+\draw[|-|,thick] (0,0.9) -- (1.947,0.9) node[midway,above]{CD = 1.95};
+\draw (0.067,0) -- (0.067,-0.70) -- (-0.3,-0.70) node[left]{SVR (1.07)};
+\draw (0.933,0) -- (0.933,-1.20) -- (-0.3,-1.20) node[left]{Random Forest (1.93)};
+\draw (2.0,0) -- (2.0,-1.70) -- (-0.3,-1.70) node[left]{Gradient Boosting (3.00)};
+\draw (3.2,0) -- (3.2,-1.70) -- (5.3,-1.70) node[right]{$k$-NN (4.20)};
+\draw (3.8,0) -- (3.8,-1.20) -- (5.3,-1.20) node[right]{Linear (4.80)};
+\draw (5.0,0) -- (5.0,-0.70) -- (5.3,-0.70) node[right]{Decision Tree (6.00)};
+\draw[line width=1.6pt] (0.03,-0.15) -- (2.04,-0.15);
+\draw[line width=1.6pt] (1.96,-0.30) -- (3.84,-0.30);
+\draw[line width=1.6pt] (3.16,-0.45) -- (5.04,-0.45);
+\end{tikzpicture}
