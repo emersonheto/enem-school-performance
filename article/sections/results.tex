@@ -28,7 +28,7 @@ deviations across partitions, about one point, are small compared with the diffe
 the groups of algorithms. The Friedman test rejects the hypothesis that all the algorithms are
 equivalent ($\chi^2_F = 73.10$, $p = 2.3 \times 10^{-14}$). The average ranks are 1.07 (SVR),
 1.93 (random forest), 3.00 (gradient boosting), 4.20 ($k$-NN), 4.80 (linear), and 6.00 (tree),
-and the Nemenyi critical difference is 1.95. The SVR and the random forest are therefore better
+and the Nemenyi critical difference is 1.95 (Figure~\ref{fig:cd}). The SVR and the random forest are therefore better
 than $k$-NN, linear regression, and the tree, and gradient boosting is better than the tree; the
 three leaders cannot be separated from one another.
 
@@ -52,6 +52,15 @@ the random forest, on a 12-core machine) made the nested search feasible for the
   \includegraphics[width=0.9\textwidth]{spot_checking_rmse.png}
   \caption{RMSE of each algorithm over the 15 grouped partitions of the spot-checking.}
   \label{fig:spot}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{\input{tables/cd_spot_checking}}
+  \caption{Critical-difference diagram of the spot-checking (average ranks over 15 partitions,
+    lower is better). Algorithms joined by a bar are not significantly different (Nemenyi,
+    $\alpha = 0.05$).}
+  \label{fig:cd}
 \end{figure}
 
 \subsection{Tuned models}
