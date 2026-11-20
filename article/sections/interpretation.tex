@@ -1,19 +1,10 @@
 \section{Interpretation}
 \label{sec:interpretation}
 
-% TODO (group writes the text). Cover (notebooks/04_interpretacao.ipynb):
-% - SHAP of the tuned Gradient Boosting: global importance (reports/results/shap_importance.csv,
-%   Figure~\ref{fig:shap}) and what the main attributes mean.
-% - Variants A/B/C (with administrative network / without / without network and school meals):
-%   Table~\ref{tab:variants}, source reports/results/interpretacao_variantes.csv.
-% - Residual analysis by network x region (Figure~\ref{fig:resid}), e.g. federal schools
-%   over/under-predicted by region.
-% - Linear model coefficients and residuals if useful: linreg_coefficients.png, linreg_residuals.png.
-% - Limitations: structural features are proxies of socioeconomic status; no causal claim.
-
 \subsection{Which attributes matter}
 
-Figure~\ref{fig:shap} shows the SHAP values of the 15 most important attributes. The
+Figure~\ref{fig:shap} shows the SHAP (SHapley Additive exPlanations) values
+\cite{lundberg2017unified} of the 15 most important attributes. The
 administrative network dominates: the indicator of a \emph{state} school (\texttt{TP\_DEPENDENCIA\_2})
 has a mean absolute SHAP value of 37.7 points, seven times that of the second attribute. Being a
 state school lowers the prediction by about 30 points, and not being one raises it by 50 to 85
@@ -32,7 +23,7 @@ A less obvious result is that the number of technical integrated enrolments
 attribute mixes federal institutes, which have high scores, with state technical schools, which
 do not.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\textwidth]{shap_beeswarm.png}
   \caption{SHAP summary of the tuned gradient boosting model. Each point is a school; the
@@ -43,16 +34,51 @@ do not.
   \label{fig:shap}
 \end{figure}
 
-\begin{table}[ht]
+\begin{table}[htbp]
   \centering
-  \caption{TODO: caption -- feature-set variants A/B/C, Gradient Boosting vs.\ linear regression.}
+  \caption{Feature-set variants: A (all attributes), B (without the administrative network), and
+    C (without the network and the school-meal indicator). Mean $\pm$ standard deviation over the
+    $3 \times 5$ grouped partitions.}
   \label{tab:variants}
   \input{tables/variantes}
 \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{interpretacao_residuos.png}
-  \caption{TODO: caption -- residuals by administrative network and region.}
+  \includegraphics[width=0.6\textwidth]{interpretacao_residuos.png}
+  \caption{Out-of-sample residuals (observed minus predicted) of the tuned gradient boosting
+    model by administrative network, first grouped partition.}
   \label{fig:resid}
 \end{figure}
+
+\subsection{How much the network explains}
+
+Table~\ref{tab:variants} repeats the evaluation without the administrative network (variant B)
+and without both the network and the school-meal indicator (variant C), for linear regression and
+the tuned gradient boosting. Without the network, gradient boosting loses half as much as the linear
+model ($R^2$ from 0.76 to 0.73, against 0.70 to 0.64). By combining the other attributes, it partly
+reconstructs whether a school is public or private, which an additive model cannot do. Removing
+also the school meals costs more to both models, but the structural attributes alone still explain
+$R^2 = 0.64$ with gradient boosting (RMSE 37.4 points), against 0.50 for the linear model.
+
+\subsection{Which schools the model misses}
+
+Figure~\ref{fig:resid} shows the out-of-sample residuals of the tuned gradient boosting
+(observed minus predicted, first grouped partition; RMSE 30.7 points). State and private schools
+have a mean residual close to zero in every region, so the model is calibrated for the two largest
+groups. Private schools, however, are more dispersed (standard deviation of the residuals between
+34 and 40 points, against about 27 for state schools): their structure explains less of their
+differences, probably because of the socioeconomic profile of the students, which the census does
+not measure. Federal schools change sign by region: they score above the prediction in the
+Southeast ($+13.1$ points on average) and South ($+6.5$), and below it in the North ($-12.7$) and
+Center-West ($-13.4$). With only about 600 federal schools, the model learns an average federal
+effect that does not hold everywhere. Municipal schools with high school are too few (about 80) to
+draw conclusions.
+
+\subsection{Limitations of the interpretation}
+
+SHAP values explain the model, not the causes of performance. The structural attributes are
+associated with the socioeconomic profile of the students, so their contributions should not be
+read as the effect of, for example, building a laboratory. Correlated attributes, such as the
+network and the school-meal indicator, also share importance among themselves in a way that
+depends on the model.

@@ -1,40 +1,88 @@
 \section{Results}
 \label{sec:results}
 
-% TODO (group writes the text). Cover:
-% - Baselines and linear regression (Table~\ref{tab:linear}); source: reports/results/linear_regression_summary.csv.
-% - Spot-checking of default models (Table~\ref{tab:spot}, Figure~\ref{fig:spot}); source:
-%   reports/results/spot_checking_summary.csv, spot_checking.csv; Friedman p-value and Nemenyi
-%   critical difference come from notebooks/02_spot_checking.ipynb outputs (not yet in a CSV).
-% - Tuned models via nested CV (Table~\ref{tab:tuned}); source: reports/results/otimizacao_summary.csv,
-%   otimizacao.csv (per-fold hyperparameters; note that SVR and GB pick grid borders -- a limitation).
-% - Friedman + Nemenyi on the tuned models: from notebooks/03_otimizacao.ipynb outputs.
-% - Training time vs performance trade-off.
+\subsection{Baselines and linear regression}
 
-\begin{table}[ht]
+Table~\ref{tab:linear} gives the reference points. Predicting the mean gives an RMSE of 62.4
+points, the standard deviation of the target. Knowing only the administrative network already
+reduces it to 39.7 points ($R^2 = 0.59$). The linear regression with all the attributes
+(variant~A) reaches 34.3 points ($R^2 = 0.70$), so the structural attributes add 5.4 points over
+the network alone. Relative to state schools, and conditional on the other attributes, the linear
+model adds 84.2 points to private schools, 60.4 to federal schools, and 21.8 to municipal schools.
+
+\begin{table}[htbp]
   \centering
-  \caption{TODO: caption -- baselines and linear regression variants (mean $\pm$ std over 3$\times$5 folds).}
+  \caption{Baselines and linear regression variants: mean $\pm$ standard deviation over the five
+    folds of the first grouped partition.}
   \label{tab:linear}
   \resizebox{\textwidth}{!}{\input{tables/linear_regression}}
 \end{table}
 
-\begin{table}[ht]
+\subsection{Spot-checking}
+
+Table~\ref{tab:spot} and Figure~\ref{fig:spot} summarize the spot-checking over the 15 grouped
+partitions. All the algorithms improve on the mean baseline. The SVR (30.77), the random forest
+(30.99), and gradient boosting (31.65) lead, followed by $k$-NN (33.91) and linear regression
+(34.24); the unpruned decision tree overfits and is the worst model (43.51). The standard
+deviations across partitions, about one point, are small compared with the differences between
+the groups of algorithms. The Friedman test rejects the hypothesis that all the algorithms are
+equivalent ($\chi^2_F = 73.10$, $p = 2.3 \times 10^{-14}$). The average ranks are 1.07 (SVR),
+1.93 (random forest), 3.00 (gradient boosting), 4.20 ($k$-NN), 4.80 (linear), and 6.00 (tree),
+and the Nemenyi critical difference is 1.95. The SVR and the random forest are therefore better
+than $k$-NN, linear regression, and the tree, and gradient boosting is better than the tree; the
+three leaders cannot be separated from one another.
+
+Since the three leaders are statistically tied, and default hyperparameters can hide an algorithm
+that would improve more with tuning, we took all three to the tuning stage instead of only the
+top-ranked one. We also tuned the decision
+tree, whose poor result was clearly caused by the lack of pruning rather than by the algorithm
+itself. The training times per fold (6.5~s for the SVR, 2.2~s for gradient boosting, and 1.1~s for
+the random forest, on a 12-core machine) made the nested search feasible for the four algorithms.
+
+\begin{table}[htbp]
   \centering
-  \caption{TODO: caption -- spot-checking with default hyperparameters.}
+  \caption{Spot-checking with default hyperparameters: mean $\pm$ standard deviation over the
+    $3 \times 5$ grouped partitions, and mean training time per fold.}
   \label{tab:spot}
   \input{tables/spot_checking}
 \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.8\textwidth]{spot_checking_rmse.png}
-  \caption{TODO: caption -- RMSE distribution per algorithm in spot-checking.}
+  \includegraphics[width=0.9\textwidth]{spot_checking_rmse.png}
+  \caption{RMSE of each algorithm over the 15 grouped partitions of the spot-checking.}
   \label{fig:spot}
 \end{figure}
 
-\begin{table}[ht]
+\subsection{Tuned models}
+
+Table~\ref{tab:tuned} compares the default and tuned versions on the same outer partitions. The
+tuning fixes the overfitting of the decision tree, whose RMSE drops by 10.2 points, to 33.31, with
+\texttt{max\_depth}$=10$ in all 15 searches. The SVR and the random forest barely change (less than
+0.1 point), indicating that their defaults were already close to the best of the grid. Gradient
+boosting gains 1.0 point and becomes the best model, with RMSE 30.63 ($R^2 = 0.757$).
+
+\begin{table}[htbp]
   \centering
-  \caption{TODO: caption -- default vs.\ tuned hyperparameters (nested CV).}
+  \caption{Default vs.\ tuned hyperparameters (nested cross-validation): mean over the
+    $3 \times 5$ outer grouped partitions. ``Gain'' is the reduction in RMSE points.}
   \label{tab:tuned}
   \resizebox{\textwidth}{!}{\input{tables/otimizacao}}
 \end{table}
+
+The selected hyperparameters were stable: gradient boosting chose \texttt{learning\_rate}$=0.05$
+and \texttt{max\_depth}$=5$, and the SVR chose $C=1$ and $\varepsilon=0.3$, in all 15 outer folds;
+the random forest chose \texttt{max\_depth}$=20$ in all 15, with \texttt{min\_samples\_leaf}$=1$ in
+12. Some of these choices lie on the border of the grid (the smallest learning rate and largest
+depth for gradient boosting, the smallest $C$ and largest $\varepsilon$ for the SVR), so a wider
+grid could improve them further.
+
+The Friedman test again rejects the null hypothesis ($\chi^2_F = 37.64$, $p = 3.4 \times
+10^{-8}$). The average ranks are 1.40 (gradient boosting), 1.73 (SVR), 2.87 (random forest), and
+4.00 (tree), with a critical difference of 1.21: gradient boosting and the SVR are better than the
+tree, and gradient boosting is better than the random forest, but gradient boosting and the SVR
+cannot be separated. In absolute terms, the three best models are within 0.3 RMSE points of each
+other, a difference that is small on the ENEM scale. We selected gradient boosting for the
+interpretation because it has the lowest error and the best average rank, and because tree
+ensembles admit exact and fast SHAP values, which the SVR does not. The whole nested
+cross-validation took about 17 minutes.

@@ -1,15 +1,6 @@
 \section{Reproducibility}
 \label{sec:reproducibility}
 
-% TODO (group writes the text; required by the assignment). Cover:
-% - Public repository URL (emersonheto/enem-school-performance) and commit/tag of the submission.
-% - Data: download link and SHA-256 of each source (metadata JSON from scripts/build_dataset.py).
-% - Environment: uv + uv.lock (exact versions), Python 3.12, seeds (SEED = 42, repetition seeds
-%   SEED + repeat), fixed folds by municipality.
-% - Commands to regenerate: build_dataset.py, eda.py, notebooks 01--04, tests (pytest).
-% - Runtime (e.g. nested CV ~17 min) and hardware, if relevant.
-% - Models/results shared: reports/results/*.csv.
-
 All the code, results, and figures are available at
 \url{https://github.com/emersonheto/enem-school-performance}. The repository contains:
 \begin{itemize}
@@ -17,7 +8,7 @@ All the code, results, and figures are available at
         the URLs in Section~\ref{sec:data} and builds the school-level table. It records, in a
         metadata file, the URL and SHA-256 hash of each source, the counts at each step, and the
         library versions. The notebooks check these hashes before running, so a republication of
-        the microdata by INEP is detected instead of silently changing the results. The SHA-256
+        the microdata by INEP is detected instead of silently producing different results. The SHA-256
         hashes of the files used are \texttt{b8d3e72c\ldots a116071} (ENEM 2025) and
         \texttt{ae29d81d\ldots c2d640db} (Censo Escolar 2024); the full hashes are in the
         repository.
