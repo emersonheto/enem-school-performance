@@ -63,7 +63,7 @@ Todos os modelos usam o mesmo pré-processamento (`build_preprocessor`) e as mes
 
 ### Notebooks no Colab
 
-Abra o notebook pelo GitHub e execute tudo: a primeira célula clona o repositório, instala `requirements.txt` e, se a tabela não existir, roda `build_dataset.py`. Rode na ordem 01 → 04. Os tempos abaixo são aproximados (Mac com 12 núcleos; o Colab gratuito tem menos núcleos e é mais lento).
+Abra o notebook pelo GitHub e execute tudo: a primeira célula clona o repositório e instala `requirements.txt`. A tabela por escola (`data/processed/schools_enem2025_censo2024.parquet`, ≈ 800 KB) e seus metadados estão versionados no repositório, porque o servidor do INEP recusa downloads de fora do Brasil, como os do Colab; os notebooks conferem os SHA-256 dos arquivos de origem registrados nos metadados. Para regenerar a tabela a partir dos microdados, rode `build_dataset.py` numa máquina no Brasil. Rode na ordem 01 → 04. Os tempos abaixo são aproximados (Mac com 12 núcleos; o Colab gratuito tem menos núcleos e é mais lento).
 
 | Ordem | Notebook | Saídas | Tempo | Depende de |
 |---|---|---|---|---|

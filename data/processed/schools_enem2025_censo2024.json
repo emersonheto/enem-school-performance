@@ -1,0 +1,79 @@
+{
+  "built_at": "2026-10-20T22:26:14+00:00",
+  "sources": {
+    "enem": {
+      "url": "https://download.inep.gov.br/microdados/microdados_enem_2025.zip",
+      "file": "microdados_enem_2025.zip",
+      "sha256": "b8d3e72cbf387ee08f18d552367005429017d43eea1f6d4b9bafe1d83a116071"
+    },
+    "censo": {
+      "url": "https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_2024.zip",
+      "file": "microdados_censo_escolar_2024.zip",
+      "sha256": "ae29d81d45ddecef59e11eda39788cbfd30dfa1cc71be9d29f23051fc2d640db"
+    }
+  },
+  "min_students_per_school": 10,
+  "valid_candidates": 1288485,
+  "enem_schools": 29341,
+  "enem_schools_above_threshold": 23570,
+  "censo_schools": 215545,
+  "joined_schools": 23374,
+  "features": [
+    "IN_AGUA_POTAVEL",
+    "IN_AGUA_REDE_PUBLICA",
+    "IN_ENERGIA_REDE_PUBLICA",
+    "IN_ESGOTO_REDE_PUBLICA",
+    "IN_LIXO_SERVICO_COLETA",
+    "IN_BANHEIRO",
+    "IN_BANHEIRO_PNE",
+    "IN_ALIMENTACAO",
+    "IN_REFEITORIO",
+    "IN_BIBLIOTECA",
+    "IN_BIBLIOTECA_SALA_LEITURA",
+    "IN_SALA_LEITURA",
+    "IN_LABORATORIO_CIENCIAS",
+    "IN_LABORATORIO_INFORMATICA",
+    "IN_AUDITORIO",
+    "IN_QUADRA_ESPORTES",
+    "IN_QUADRA_ESPORTES_COBERTA",
+    "IN_PATIO_COBERTO",
+    "IN_SALA_ATENDIMENTO_ESPECIAL",
+    "IN_ACESSIBILIDADE_RAMPAS",
+    "IN_ACESSIBILIDADE_INEXISTENTE",
+    "IN_COMPUTADOR",
+    "IN_DESKTOP_ALUNO",
+    "IN_COMP_PORTATIL_ALUNO",
+    "IN_TABLET_ALUNO",
+    "IN_EQUIP_MULTIMIDIA",
+    "IN_EQUIP_LOUSA_DIGITAL",
+    "IN_INTERNET",
+    "IN_INTERNET_ALUNOS",
+    "IN_INTERNET_APRENDIZAGEM",
+    "IN_BANDA_LARGA",
+    "QT_MAT_MED",
+    "QT_DOC_MED",
+    "QT_TUR_MED",
+    "QT_MAT_MED_INT",
+    "QT_MAT_MED_CT",
+    "QT_SALAS_UTILIZADAS",
+    "QT_SALAS_UTILIZA_CLIMATIZADAS",
+    "QT_DESKTOP_ALUNO",
+    "QT_COMP_PORTATIL_ALUNO",
+    "TP_DEPENDENCIA",
+    "TP_LOCALIZACAO",
+    "TP_LOCALIZACAO_DIFERENCIADA",
+    "CO_REGIAO",
+    "SG_UF"
+  ],
+  "missing_features": [],
+  "group_keys": [
+    "CO_MUNICIPIO",
+    "CO_UF"
+  ],
+  "target": "nota_media",
+  "versions": {
+    "python": "3.12.13",
+    "pandas": "3.0.6",
+    "scikit-learn": "1.9.1"
+  }
+}
