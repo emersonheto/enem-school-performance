@@ -34,12 +34,11 @@ compare several algorithms over the resulting folds, Dem\v{s}ar~\cite{demsar2006
 recommends the Friedman test followed by the Nemenyi post-hoc test.
 
 \paragraph{Positioning of this work.}
-Compared with these studies, our work (i) uses the school as the unit of analysis and only
-structural attributes from the Censo Escolar, without the students' socioeconomic
-questionnaire; (ii) evaluates six algorithms with cross-validation grouped by municipality,
-repeated partitions shared by all algorithms, and nested hyperparameter tuning; and
-(iii) compares the algorithms with statistical tests and interprets the best model with SHAP and
-ablations of the administrative network. Since we predict school means rather than individual
+Unlike these studies, we work at the school level and use only structural attributes from the
+Censo Escolar, without the students' socioeconomic questionnaire. We evaluate six algorithms with
+cross-validation grouped by municipality, repeated partitions shared by all algorithms, and nested
+hyperparameter tuning, compare them with statistical tests, and interpret the best model with SHAP
+and ablations of the administrative network. Since we predict school means rather than individual
 scores, our error and $R^2$ values are not directly comparable with student-level studies such
 as \cite{tertulino2026fatores}: averaging over students removes much of the individual
 variability.

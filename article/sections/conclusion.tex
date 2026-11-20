@@ -2,9 +2,9 @@
 \label{sec:conclusion}
 
 This work asked to what extent the structural characteristics of a Brazilian high school predict
-the average ENEM score of its students. On 23{,}374 schools and under a protocol designed to avoid
-optimistic estimates (cross-validation grouped by municipality, identical repeated partitions for
-all algorithms, and nested tuning), the answer is: to a large extent. A tuned gradient boosting
+the average ENEM score of its students. On 23{,}374 schools and under a protocol built to avoid
+inflated error estimates (cross-validation grouped by municipality, identical repeated partitions
+for all algorithms, and nested tuning), they predict a large share of it. A tuned gradient boosting
 model reaches an RMSE of 30.6 points ($R^2 = 0.76$), against 62.4 points when predicting the mean
 and 39.7 points when only the administrative network is known. Gradient boosting, the SVR, and the
 random forest are within 0.3 RMSE points of each other, so the choice among them matters much less
