@@ -8,10 +8,7 @@ All the code, results, and figures are available at
         the URLs in Section~\ref{sec:data} and builds the school-level table. It records, in a
         metadata file, the URL and SHA-256 hash of each source, the counts at each step, and the
         library versions. The notebooks check these hashes before running, so a republication of
-        the microdata by INEP is detected instead of silently producing different results. The SHA-256
-        hashes of the files used are \texttt{b8d3e72c\ldots a116071} (ENEM 2025) and
-        \texttt{ae29d81d\ldots c2d640db} (Censo Escolar 2024); the full hashes are in the
-        repository.
+        the microdata by INEP is detected instead of silently producing different results.
   \item \emph{Shared preprocessing and evaluation.} The preprocessing, the grouped folds,
         spot-checking, nested cross-validation, and the statistical tests are implemented once in
         \texttt{src/enem\_school/} and imported by every notebook, so all the models use exactly
