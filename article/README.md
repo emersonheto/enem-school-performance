@@ -31,7 +31,7 @@ No Overleaf: envie a pasta `article/` e, dentro dela, a pasta `reports/figures/`
 Depois de rodar os notebooks (que atualizam `reports/results/`), a partir da raiz do repositório:
 
 ```bash
-uv run --no-project --with pandas python article/scripts/make_tables.py
+uv run --group notebooks python article/scripts/make_tables.py
 ```
 
 ## Limite
