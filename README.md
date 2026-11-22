@@ -27,11 +27,11 @@ O código-fonte do artigo (template SBC, LaTeX) está em `article/`.
 | `reports/results/` | Métricas por dobra e resumo de cada modelo, gravadas pelos notebooks |
 | `article/` | Código-fonte LaTeX do artigo (template SBC); as tabelas em `article/tables/` são geradas por `article/scripts/make_tables.py` |
 | `tests/` | Testes do pipeline de dados e das regras de inconsistência |
-| `data/` | Dados brutos e processados (fora do git) |
+| `data/` | Dados brutos (fora do git) e a tabela por escola com seus metadados (`data/processed/`, versionada) |
 
 ## Requisitos
 
-- **Download:** o zip do ENEM 2025 tem cerca de 1 GB (o do Censo 2024, cerca de 34 MB). Em `data/raw/` ficam ≈ 1,1 GB; a tabela por escola (`data/processed/`) tem menos de 1 MB. No Colab, cada sessão nova baixa tudo de novo.
+- **Download:** o zip do ENEM 2025 tem cerca de 1 GB (o do Censo 2024, cerca de 34 MB). Em `data/raw/` ficam ≈ 1,1 GB; a tabela por escola (`data/processed/`) tem menos de 1 MB e já vem no repositório, então os notebooks não precisam baixar nada (o download só é necessário para regenerar a tabela com `build_dataset.py`).
 - **Memória:** o `RESULTADOS_2025.csv` é lido em blocos de 200 mil linhas (`read_enem_results`), sem carregar o arquivo inteiro. Não medimos o consumo de RAM.
 - **Colab:** depois de instalar as versões fixadas de pandas/numpy, o Colab pode pedir para reiniciar a sessão; reinicie e execute tudo de novo.
 
@@ -59,7 +59,7 @@ uv run jupyter lab                        # abrir notebooks/ e rodar "Restart Ke
 
 Todos os modelos usam o mesmo pré-processamento (`build_preprocessor`) e as mesmas 5 dobras por `CO_MUNICIPIO` (`assign_folds`, com `config.SEED`), ambos de `src/enem_school/preprocessing.py`, para que as métricas sejam comparáveis.
 
-**Determinismo:** as sementes são fixas (`config.SEED = 42`; a repetição `r` da validação cruzada usa `42 + r`), então as métricas se reproduzem exatamente. Só os tempos de treino dependem do hardware.
+**Determinismo:** as sementes são fixas (`config.SEED = 42`; a repetição `r` da validação cruzada usa `42 + r`), então na mesma plataforma as métricas se reproduzem exatamente. Em outra plataforma (por exemplo, o Colab, com outra versão do Python) podem aparecer diferenças numéricas pequenas — no notebook 02 o Friedman deu p = 1,8e-14 no Colab contra 2,3e-14 localmente — sem mudar o ranking dos algoritmos. Os tempos de treino dependem do hardware.
 
 ### Notebooks no Colab
 
@@ -86,7 +86,7 @@ Valores para conferir se a reprodução está correta (de `reports/results/` e `
 | Baseline: média (RMSE) | 62,4 |
 | Baseline: rede (RMSE) | 39,7 |
 | Spot-checking, hiperparâmetros padrão (RMSE) | SVR 30,77; Floresta 30,99; Gradient Boosting 31,65 |
-| Friedman (notebook 02) | p = 2,3e-14 |
+| Friedman (notebook 02) | p = 2,3e-14 (≈ 1,8e-14 no Colab) |
 | Gradient Boosting ajustado (notebook 03) | RMSE 30,63; R² 0,76 |
 
 ## Regenerar as tabelas do artigo
