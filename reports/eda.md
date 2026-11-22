@@ -1,6 +1,6 @@
 # EDA — tabela por escola (ENEM 2025 + Censo Escolar 2024)
 
-Gerado por `scripts/eda.py` a partir de `data/processed/schools_enem2025_censo2024.parquet`. Todos os números deste arquivo saem do script; a interpretação fica para o grupo.
+Gerado por `scripts/eda.py` a partir de `data/processed/schools_enem2025_censo2024.parquet`. Todos os números deste arquivo saem do script; a interpretação está no artigo (seção 3) e nos notebooks.
 
 ## Dados
 
