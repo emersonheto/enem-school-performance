@@ -19,7 +19,10 @@ from enem_school import config  # noqa: E402
 from enem_school import eda  # noqa: E402
 
 FIGURES = config.REPORTS_DIR / "figures"
-TARGET_LABEL = "Nota média da escola (ENEM 2025)"
+TARGET_LABEL = "School mean score (ENEM 2025)"
+EN = {"Estadual": "State", "Privada": "Private", "Norte": "North", "Nordeste": "Northeast",
+      "Sudeste": "Southeast", "Sul": "South", "Centro-Oeste": "Center-West"}
+LARGE_FONT = {"font.size": 14}
 
 
 def save(fig: plt.Figure, name: str) -> str:
@@ -34,20 +37,31 @@ def table(df: pd.DataFrame, floatfmt: str = ".3f") -> str:
 
 
 def plot_target(schools: pd.DataFrame, cutoff: float) -> str:
-    fig, ax = plt.subplots(figsize=(7, 4))
+    with plt.rc_context(LARGE_FONT):
+        return _plot_target(schools, cutoff)
+
+
+def _plot_target(schools: pd.DataFrame, cutoff: float) -> str:
+    fig, ax = plt.subplots(figsize=(6.5, 4.5))
     ax.hist(schools[eda.TARGET], bins=60, color="#4C72B0")
-    ax.axvline(cutoff, color="#C44E52", linestyle="--", label=f"Quartil superior (≥ {cutoff:.1f})")
-    ax.set(xlabel=TARGET_LABEL, ylabel="Escolas")
+    ax.axvline(cutoff, color="#C44E52", linestyle="--", label=f"Upper quartile (≥ {cutoff:.1f})")
+    ax.set(xlabel=TARGET_LABEL, ylabel="Schools")
     ax.legend()
     return save(fig, "target_hist.png")
 
 
 def plot_target_by(schools: pd.DataFrame, column: str, labels: dict[int, str], name: str, xlabel: str) -> str:
+    with plt.rc_context(LARGE_FONT):
+        return _plot_target_by(schools, column, labels, name, xlabel)
+
+
+def _plot_target_by(schools: pd.DataFrame, column: str, labels: dict[int, str], name: str, xlabel: str) -> str:
     order = eda.target_by(schools, column, labels).index
     groups = [schools.loc[schools[column].map(labels) == g, eda.TARGET] for g in order]
-    fig, ax = plt.subplots(figsize=(7, 4))
-    ax.boxplot(groups, tick_labels=order, showfliers=False)
+    fig, ax = plt.subplots(figsize=(6, 4.5))
+    ax.boxplot(groups, tick_labels=[EN.get(g, g) for g in order], showfliers=False)
     ax.set(xlabel=xlabel, ylabel=TARGET_LABEL)
+    ax.tick_params(axis="x", rotation=20)
     return save(fig, name)
 
 
@@ -98,9 +112,9 @@ def main() -> int:
     figures = {
         "target": plot_target(schools, cutoff),
         "dependencia": plot_target_by(
-            schools, "TP_DEPENDENCIA", eda.DEPENDENCIA_LABELS, "target_by_dependencia.png", "Rede"
+            schools, "TP_DEPENDENCIA", eda.DEPENDENCIA_LABELS, "target_by_dependencia.png", "Administrative network"
         ),
-        "regiao": plot_target_by(schools, "CO_REGIAO", eda.REGIAO_LABELS, "target_by_regiao.png", "Região"),
+        "regiao": plot_target_by(schools, "CO_REGIAO", eda.REGIAO_LABELS, "target_by_regiao.png", "Region"),
         "counts": plot_count_features(schools),
         "corr": plot_correlations(corr),
         "noise": plot_noise(noise),
