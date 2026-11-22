@@ -49,6 +49,16 @@ how much the network explains, models are evaluated on three feature-set variant
 attributes), B (without the administrative network), and C (without the network and the
 school-meal indicator).
 
+\paragraph{Reproducibility.} The code, the school-level table, the per-fold results, and the
+notebooks with their outputs are available at
+\url{https://github.com/emersonheto/enem-school-performance}. A script downloads the INEP files,
+records their SHA-256 hashes, and builds the table; the notebooks check these hashes before
+running. The preprocessing, the folds, and the evaluation are implemented once and shared by all
+notebooks, library versions are pinned (Python 3.12, scikit-learn 1.9.1), and all random
+processes use fixed seeds (42, and $42 + r$ for repetition $r$). On the same platform the metrics
+are reproduced exactly; on others, such as Google Colab, small numerical differences may appear
+without changing the ranking of the algorithms.
+
 \subsection{Spot-checking and hyperparameter tuning}
 \label{sec:tuning}
 
