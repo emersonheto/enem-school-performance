@@ -164,7 +164,7 @@ Verificação contra as fontes originais (16/10/2026):
 - **Fonte oficial:** INEP, *Microdados do Censo Escolar da Educação Básica 2024*, Anexo I – Dicionário de Dados, aba `microdados_unidade_coleta`, linhas 215 (`QT_DESKTOP_ALUNO`) e 217 (`QT_COMP_PORTATIL_ALUNO`): "88888 - registro com marcação de valor extremo (valor superior ao limite máximo de 4 equipamentos para cada 3 matrículas - foram marcados apenas valores>3)". O zip usado é idêntico ao publicado pelo INEP (SHA-256 no `.json` de metadados).
 - **CSV completo do Censo (215.545 escolas):** o código aparece em 26 colunas `QT_` (computadores, equipamentos e profissionais) e nenhum outro valor chega a 10.000; as escolas marcadas são pequenas (mediana de 12 a 19 matrículas).
 - **Limitação:** o limite de 4 equipamentos para cada 3 matrículas não se reproduz com as colunas públicas: entre 17 e 42 escolas sem marca (conforme a contagem de matrículas usada) ficam acima dele. Ou seja, nem todo valor extremo está marcado.
-- **Tratamento:** decisão do grupo (faltante com imputação, ou faltante + indicador binário de valor extremo marcado).
+- **Tratamento:** o código vira faltante (imputado com a mediana) e um indicador binário registra que o valor extremo estava marcado (`mark_extreme_values` em `src/enem_school/preprocessing.py`).
 
 | atributo                      |   mediana |     p99 |   máximo |   assimetria |   zeros |   outliers_iqr |   marcados_88888 |
 |:------------------------------|----------:|--------:|---------:|-------------:|--------:|---------------:|-----------------:|

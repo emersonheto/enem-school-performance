@@ -1,6 +1,6 @@
 # Artigo (template SBC, LaTeX)
 
-Esqueleto do artigo do trabalho prático. As seções em `sections/` contêm só comentários `% TODO:` com o que deve ir em cada uma; o texto é escrito pelo grupo.
+Artigo do trabalho prático (template SBC, uma coluna, inglês). O texto de cada seção está em `sections/`; a versão entregue foi compilada no Overleaf (14 páginas).
 
 ## Estrutura
 
@@ -10,7 +10,7 @@ Esqueleto do artigo do trabalho prático. As seções em `sections/` contêm só
 | `sections/` | Uma seção por arquivo, incluída com `\input` |
 | `tables/` | Tabelas `.tex` **geradas** a partir de `../reports/results/*.csv` (não editar à mão) |
 | `scripts/make_tables.py` | Gera as tabelas |
-| `references.bib` | Referências (vazio por enquanto) |
+| `references.bib` | Referências (BibTeX, estilo `sbc.bst`) |
 | `sbc-template.sty`, `sbc.bst` | Arquivos do template SBC |
 
 As figuras são lidas de `../reports/figures/` (via `\graphicspath`), sem cópia.
@@ -36,4 +36,4 @@ uv run --group notebooks python article/scripts/make_tables.py
 
 ## Limite
 
-Até 20 páginas, incluindo referências. Ainda não compilado: nenhum LaTeX foi testado no ambiente em que o esqueleto foi criado.
+Até 20 páginas, incluindo referências (o artigo tem 14). Compila no Overleaf (pdfLaTeX) e localmente com `tectonic -X compile main.tex`.

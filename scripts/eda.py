@@ -201,8 +201,8 @@ def main() -> int:
         "- **Limitação:** o limite de 4 equipamentos para cada 3 matrículas não se reproduz com as colunas "
         "públicas: entre 17 e 42 escolas sem marca (conforme a contagem de matrículas usada) ficam acima dele. "
         "Ou seja, nem todo valor extremo está marcado.",
-        "- **Tratamento:** decisão do grupo (faltante com imputação, ou faltante + indicador binário de valor "
-        "extremo marcado).",
+        "- **Tratamento:** o código vira faltante (imputado com a mediana) e um indicador binário registra que "
+        "o valor extremo estava marcado (`mark_extreme_values` em `src/enem_school/preprocessing.py`).",
         "",
         table(counts.set_index("atributo"), ".2f"),
         "",
